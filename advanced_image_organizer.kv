@@ -1,0 +1,196 @@
+WindowManager:
+    Intro:
+    FolderMaker:
+    Cam:
+    Confirmview:
+    View:
+    Pdfmaker:
+    About:
+
+<Intro>:
+    name: "intro"
+    FloatLayout:
+        Image:
+            source:"imp_app_images/title.jpg"
+            size_hint:(1,0.3)
+            pos_hint:{'x':0,'top':0.95}
+        Button:
+            text:"START"
+            font_size:60
+            size_hint:(0.6,0.2)
+            pos_hint:{'x':0.2,'top':0.5}
+            on_release:
+                app.root.current="foldermaker"
+                root.manager.transition.direction="left"
+        Button:
+            text:"ABOUT"
+            font_size:24
+            size_hint:(0.25,0.1)
+            pos_hint:{'x':0.375,'top':0.2}
+            on_press:
+                app.root.current="about"
+                root.manager.transition.direction="up"
+                
+<FolderMaker>:
+    name: "foldermaker"
+    txt:txt
+    FloatLayout:
+        Label:
+            text: "Name the Album"
+            font_size:45
+            size_hint:(0.3,0.3)
+            pos_hint:{'x':0.35,'top':1}
+        TextInput:
+            id: txt
+            text:''
+            font_size:40
+            size_hint:(0.7,0.1)
+            pos_hint:{'x':0.15,'top':0.6}
+        Button:
+            text:"CAPTURE PHOTOS"
+            font_size:33
+            size_hint:(0.8,0.2)
+            pos_hint:{'x':0.1,'top':0.3}
+            on_press:
+                root.gen_folder()
+            on_release:
+                app.root.current="camera"
+                root.manager.transition.direction="left"
+
+<Cam>:
+    name:"camera"
+    photo_name:photo_name
+    camera:camera
+    FloatLayout:
+        Label:
+            text:"Capture Photos"
+            font_size:50
+            size_hint:(0.1,0.1)
+            pos_hint:{'x':0.45,'top':1}
+        Camera:
+            id:camera
+            resolution:(1280,720)
+            play:True
+            size_hint:(0.95,0.6)
+            pos_hint:{'x':0.025,'top':0.95}
+        TextInput:
+            id:photo_name
+            text:'Enter name of the photo here'
+            font_size:25
+            size_hint:(0.9,0.1)
+            pos_hint:{'x':0.05,'top':0.40}
+        Button:
+            text:'Capture'
+            font_size:35
+            on_press:
+                root.capture()
+            size_hint:(0.7,0.1)
+            pos_hint:{'x':0.15,'top':0.26}
+        Button:
+            text:"Finish"
+            font_size:35
+            size_hint:(0.7,0.1)
+            pos_hint:{'x':0.15,'top':0.14}
+            on_press:
+                root.save()
+            on_release:
+                app.root.current="confirmview"
+                root.manager.transition.direction="left"
+
+<Confirmview>:
+    name:"confirmview"
+    FloatLayout:
+        Label:
+            text:"Your photos have been saved"
+            font_size:30
+            size_hint:(0.7,0.1)
+            pos_hint:{'x':0.15,'top':0.82}
+        Image:
+            source:'imp_app_images/thumbs_up.jpeg'
+            size_hint:(0.8,0.8)
+            pos_hint:{'x':0.10,'top':0.9}
+            
+        Button:
+            text:"Click here to view the photos"
+            font_size:25
+            size_hint:(0.8,0.1)
+            pos_hint:{'x':0.1,'top':0.26}
+            on_press:
+                root.img_list_gen()
+            on_release:
+                app.root.current="view"
+                root.manager.transition.direction="left"
+      
+<View>:
+    name:"view"
+    img:img
+    btn:btn
+    FloatLayout:
+        Image:
+            id:img
+            source:"imp_app_images/album_icon.png"
+            size_hint:(0.95,0.6)
+            pos_hint:{'x':0.025,'top':0.99}
+        Button:
+            id:btn
+            text:'Click to view'
+            font_size:40
+            size_hint:(0.7,0.15)
+            pos_hint:{'x':0.15,'top':0.43}
+            on_press: 
+                root.change() 
+                btn.text='NEXT'
+                btn.font_size:50
+        Button:
+            text:"skip"
+            font_size:50
+            size_hint:(0.7,0.15)
+            pos_hint:{'x':0.15,'top':0.20}
+            on_press:
+                app.root.current="pdf"
+                root.manager.transition.direction="left"
+
+<Pdfmaker>:
+    name:"pdf"
+    FloatLayout:
+        Label:
+            text:"Thank you for using our app."
+            font_size:30
+            size_hint:(0.7,0.40)
+            pos_hint:{'x':0.15,'top':1}
+        Image:
+            source:"imp_app_images/smile.jpg"
+            size_hint:(0.5,0.5)
+            pos_hint:{'x':0.25,'top':0.85}
+        Button:
+            text:"Export to PDF"
+            font_size:40
+            size_hint:(0.7,0.20)
+            pos_hint:{'x':0.15,'top':0.40}
+            on_release:
+                root.pdfgen()
+        Button:
+            text:"Back to Home"
+            font_size:30
+            size_hint:(0.5,0.13)
+            pos_hint:{'x':0.25,'top':0.15}
+            on_release:
+                app.root.current="intro"
+                root.manager.transition.direction="right"
+
+<About>:
+    name:"about"
+    FloatLayout:
+        cols:1
+        row:2
+        Image:
+            source:"imp_app_images/about.jpg"
+        Button:
+            text:"GO BACK"
+            font_size:40
+            size_hint:(1,0.13)
+            pos_hint:{'x':0,'top':0.13}
+            on_release:
+                app.root.current="intro"
+                root.manager.transition.direction="down"
+
